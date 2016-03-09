@@ -48,7 +48,7 @@ def make_json
   obj[:index] = obj[:videos].map do |webm|
     title = webm[:file_name].sub /\.webm$/, ''
     unless webm[:data].nil?
-      title = webm[:data][:title] unless webm[:data][:title].nil?
+      title = webm[:data]['title'] unless webm[:data]['title'].nil?
     end
 
     "<li><a href=\"#\" onclick=\"playWebMByFileName('#{webm[:file_name]}')\">#{title}</a></li>"
