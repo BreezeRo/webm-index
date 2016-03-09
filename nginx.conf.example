@@ -1,0 +1,15 @@
+# Example nginx configuration for webm-index
+server {
+  listen 80;
+  # Change this to your server name:
+  server_name example.com;
+  # Change this to the path to the public directory:
+  root /var/www/rrerr.net/webm/public;
+  location ~ ^/data(/.*)?$ {
+    # Change this to the directory containing the WebM files:
+    alias /home/webm$1;
+    autoindex on;
+  }
+  charset utf-8;
+}
+
