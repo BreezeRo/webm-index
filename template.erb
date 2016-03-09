@@ -1,0 +1,40 @@
+<!-- Page generated at <%= Time.now.to_s %> -->
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link href="/css/style.css" rel="stylesheet" type="text/css" />
+  <title><%= CONFIG[:site][:name] %></title>
+  <script defer src="/js/site.js"></script>
+</head>
+<body>
+  <div class="main-page">
+    <div class="wrapper">
+      <video id="videoplayer"></video>
+    </div>
+    <div class="info-wrapper">
+      <div>
+        <div>
+          <span id="title">Loading...</span>
+          <span id="songWrapper" style="display: none">♫ <span id="song"></span></span>
+        </div>
+        <div>
+          <a href="#random" id="randomWebM">Random</a>
+          &middot;
+          <a href="#index" id="indexLink">Index</a>
+          &middot;
+          <a href="#" id="permalink" target="_blank">Permalink</a>
+        </div>
+      </div>
+    </div>
+    <div class="description" style="display: none">
+      <p id="description"></span>
+    </div>
+  </div>
+  <div class="index">
+    <ul id="indexList">
+      <li>Loading, please wait...</li>
+    </ul>
+  </div>
+</body>
+</html>

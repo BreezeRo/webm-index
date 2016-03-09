@@ -1,0 +1,12 @@
+---
+# The directory containing the WebM videos.
+:directory: '/home/webm'
+
+:site:
+  # The site name.  Used in the <title> tag and everywhere else.
+  :name: 'WebM directory at example.com'
+
+  # The base dir containing the WebMs.
+  # e.g. '/data' for 'http://example.com/data'
+  :webm_basedir: '/data'
+
