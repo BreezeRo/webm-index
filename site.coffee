@@ -22,11 +22,12 @@ loadData = (callback) ->
 
 playWebM = (webm) ->
   currentWebM = webm
-  document.getElementById('title').innerHTML = webm.file_name.substring(0, webm.file_name.indexOf(".webm"))
+  document.getElementById('title').innerHTML = webm.file_name.replace(/\.webm$/, '')
   document.getElementById('songWrapper').style.display = "none"
   document.getElementById('description').innerHTML = "<i>This video does not have a description.</i>"
   document.getElementById('permalink').href = data.basedir + '/' + webm.file_name
 
+  window.location.hash = encodeURI webm.file_name.replace(/\.webm$/, '')
   videoplayer.src = data.basedir + '/' + webm.file_name
   videoplayer.loop = true
   videoplayer.controls = true
@@ -41,11 +42,12 @@ playWebM = (webm) ->
     if webm.data.description?
       document.getElementById('description').innerHTML = webm.data.description
 
-playWebMByFileName = (fileName) ->
-  webm = (video for video in data.videos when video.file_name is fileName)
+playWebMByFileName = (fileName, event = null) ->
+  event.preventDefault() if event?
+  webm = (video for video in data.videos when video.file_name is decodeURI(fileName))
   if webm.length == 0
     console.log "WebM not found: #{fileName}"
-    return
+    return playRandomWebM()
   playWebM webm[0]
 window.playWebMByFileName = playWebMByFileName
 
@@ -82,6 +84,10 @@ load = ->
 
   loadData ->
     document.getElementById('indexList').innerHTML = data.index
-    playRandomWebM()
+    hash = window.location.hash.replace(/^#|\.webm$/, '').trim()
+    if hash.length > 0
+      return playWebMByFileName(hash + ".webm")
+    else
+      playRandomWebM()
 
 document.addEventListener "DOMContentLoaded", load, false

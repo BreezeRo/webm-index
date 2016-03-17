@@ -51,7 +51,7 @@ def make_json
       title = webm[:data]['title'] unless webm[:data]['title'].nil?
     end
 
-    "<li><a href=\"#\" onclick=\"playWebMByFileName('#{webm[:file_name]}')\">#{title}</a></li>"
+    "<li><a href=\"#\" onclick=\"playWebMByFileName('#{ERB::Util.url_encode webm[:file_name]}', event)\">#{title}</a></li>"
   end * ''
 
   obj.to_json
