@@ -27,7 +27,7 @@ playWebM = (webm) ->
   document.getElementById('description').innerHTML = "<i>This video does not have a description.</i>"
   document.getElementById('permalink').href = data.basedir + '/' + webm.file_name
 
-  window.location.hash = encodeURI webm.file_name.replace(/\.webm$/, '')
+  window.location.hash = encodeURIComponent webm.file_name.replace(/\.webm$/, '')
   videoplayer.src = data.basedir + '/' + webm.file_name
   videoplayer.loop = true
   videoplayer.controls = true
@@ -44,7 +44,7 @@ playWebM = (webm) ->
 
 playWebMByFileName = (fileName, event = null) ->
   event.preventDefault() if event?
-  webm = (video for video in data.videos when video.file_name is decodeURI(fileName))
+  webm = (video for video in data.videos when video.file_name is decodeURIComponent(fileName))
   if webm.length == 0
     console.log "WebM not found: #{fileName}"
     return playRandomWebM()
