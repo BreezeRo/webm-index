@@ -19,7 +19,7 @@ def make_json
     videos: [],
     index: ''
   }
-  webms = Dir[File.join CONFIG[:directory], '*.webm'].sort
+  webms = Dir[File.join CONFIG[:directory], '*.webm'].sort { |a, b| a.downcase <=> b.downcase }
 
   puts "Processing #{webms.length} files..."
   webms.each do |webm|
