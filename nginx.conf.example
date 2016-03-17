@@ -4,7 +4,7 @@ server {
   # Change this to your server name:
   server_name example.com;
   # Change this to the path to the public directory:
-  root /var/www/rrerr.net/webm/public;
+  root /var/www/example.com/public;
   location ~ ^/data(/.*)?$ {
     # Change this to the directory containing the WebM files:
     alias /home/webm$1;
