@@ -26,6 +26,7 @@ playWebM = (webm) ->
   document.getElementById('songWrapper').style.display = "none"
   document.getElementById('description').innerHTML = "<i>This video does not have a description.</i>"
   document.getElementById('permalink').href = data.basedir + '/' + webm.file_name
+  document.getElementById('uploader').innerHTML = webm.uploaded_by || 'unknown'
 
   window.location.hash = encodeURIComponent webm.file_name.replace(/\.webm$/, '')
   videoplayer.src = data.basedir + '/' + webm.file_name
@@ -33,7 +34,7 @@ playWebM = (webm) ->
   videoplayer.controls = true
   videoplayer.play()
 
-  if webm.data != null
+  if webm.data?
     if webm.data.title?
       document.getElementById('title').innerHTML = webm.data.title
     if webm.data.song?

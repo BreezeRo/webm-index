@@ -7,6 +7,7 @@
 require 'yaml'
 require 'json'
 require 'erb'
+require 'etc'
 
 CONFIG = YAML.load_file File.expand_path '../config.yml', __FILE__
 DATA_OUT_FILE = File.expand_path '../public/js/data.js', __FILE__
@@ -31,7 +32,8 @@ def make_json
 
     webm_obj = {
       file_name: File.basename(webm),
-      data: nil
+      data: nil,
+      uploaded_by: Etc.getpwuid(File.stat(webm).uid).name
     }
     c = '.'
     if File.exists? webm + '.desc'
