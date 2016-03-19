@@ -66,6 +66,11 @@ toggleIndex = ->
     indexContent.style.left = "0%"
   indexOpened = !indexOpened
 
+hashChange = ->
+  hash = window.location.hash.replace(/^#|\.webm$/, '').trim()
+  if hash.length > 0
+    playWebMByFileName(hash + ".webm")
+
 load = ->
   videoplayer = document.getElementById('videoplayer')
   content = document.getElementsByClassName('wrapper')[0]
@@ -91,4 +96,5 @@ load = ->
     else
       playRandomWebM()
 
+window.addEventListener "hashchange", hashChange, false
 document.addEventListener "DOMContentLoaded", load, false
