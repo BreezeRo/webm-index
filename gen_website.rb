@@ -20,7 +20,7 @@ def make_json
     videos: [],
     index: ''
   }
-  webms = Dir[File.join CONFIG[:directory], '*.webm'].sort { |a, b| a.downcase <=> b.downcase }
+  webms = Dir[File.join CONFIG[:directory], '*.webm']
 
   puts "Processing #{webms.length} files..."
   webms.each do |webm|
@@ -46,6 +46,10 @@ def make_json
     $stdout.flush
   end
   puts " done"
+
+  obj[:videos].sort! do |a, b|
+    (a[:data] && a[:data]['title'] || a[:file_name]).downcase <=> (b[:data] && b[:data]['title'] || b[:file_name]).downcase
+  end
 
   obj[:index] = obj[:videos].map do |webm|
     title = webm[:file_name].sub /\.webm$/, ''
