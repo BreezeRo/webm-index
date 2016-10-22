@@ -10,3 +10,8 @@
   # e.g. '/data' for 'http://example.com/data'
   :webm_basedir: '/data'
 
+:piwik:
+  :enabled: true
+  :domain: "*.example.com"
+  :piwik_url: "piwik.example.com"
+  :site_id: 1
