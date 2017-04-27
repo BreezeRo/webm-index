@@ -30,7 +30,7 @@ playWebM = (webm) ->
 
   window.location.hash = encodeURIComponent webm.file_name.replace(/\.webm$/, '')
   videoplayer.src = data.basedir + '/' + webm.file_name
-  videoplayer.loop = true
+  # videoplayer.loop = true
   videoplayer.controls = true
   videoplayer.play()
 
@@ -90,6 +90,8 @@ load = ->
   videoplayer.addEventListener 'ended', (ev) ->
     if document.getElementById('autoplay').checked
       playRandomWebM()
+    else
+      videoplayer.play()
 
   loadData ->
     document.getElementById('indexList').innerHTML = data.index
