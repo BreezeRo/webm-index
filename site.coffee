@@ -87,6 +87,9 @@ load = ->
     toggleIndex()
   document.getElementById('permalink').addEventListener 'click', (ev) ->
     videoplayer?.pause()
+  videoplayer.addEventListener 'ended', (ev) ->
+    if document.getElementById('autoplay').checked
+      playRandomWebM()
 
   loadData ->
     document.getElementById('indexList').innerHTML = data.index
