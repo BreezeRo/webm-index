@@ -11,6 +11,16 @@ infoContent = null
 indexContent = null
 indexOpened = false
 
+```
+function getStack() {
+    try {
+        throw new Error();
+    } catch(e) {
+        return e.stack;
+    }
+}
+```
+
 loadData = (callback) ->
   xhr = new XMLHttpRequest()
   xhr.open 'GET', '/js/data.js'
@@ -19,6 +29,27 @@ loadData = (callback) ->
     data = JSON.parse xhr.responseText
     callback()
   xhr.send()
+
+getPlayCounts = () ->
+  window.localStorage.playCounts = "{}" unless window.localStorage.playCounts?
+  JSON.parse(window.localStorage.playCounts)
+
+setPlayCounts = (obj) ->
+  window.localStorage.playCounts = JSON.stringify(obj)
+
+increasePlayCountFor = (webmName) ->
+  playCounts = getPlayCounts()
+  playCounts[webmName] = 0 unless playCounts[webmName]?
+  playCounts[webmName] += 1
+  console.log("increasing play count for #{webmName} from #{playCounts[webmName] - 1} to #{playCounts[webmName]}")
+  console.log getStack()
+  setPlayCounts(playCounts)
+
+initPlayCountsFor = (webmNames) ->
+  playCounts = getPlayCounts()
+  for webmName in webmNames
+    playCounts[webmName] = 0 unless playCounts[webmName]?
+  setPlayCounts(playCounts)
 
 playWebM = (webm) ->
   currentWebM = webm
@@ -30,9 +61,9 @@ playWebM = (webm) ->
 
   window.location.hash = encodeURIComponent webm.file_name.replace(/\.webm$/, '')
   videoplayer.src = data.basedir + '/' + webm.file_name
-  # videoplayer.loop = true
   videoplayer.controls = true
   videoplayer.play()
+  increasePlayCountFor(webm.file_name)
 
   if webm.data?
     if webm.data.title?
@@ -53,7 +84,11 @@ playWebMByFileName = (fileName, event = null) ->
 window.playWebMByFileName = playWebMByFileName
 
 playRandomWebM = ->
-  playWebM data.videos[Math.floor(Math.random() * data.videos.length)]
+  getRandomFileNameWithHash = -> "#" + encodeURIComponent(data.videos[Math.floor(Math.random() * data.videos.length)].file_name.replace(/\.webm$/, '').trim())
+  newhash = getRandomFileNameWithHash()
+  newhash = getRandomFileNameWithHash() while window.location.hash == newhash
+  console.log "#{window.location.hash} = #{newhash}"
+  window.location.hash = newhash
 
 toggleIndex = ->
   if indexOpened
@@ -94,6 +129,7 @@ load = ->
       videoplayer.play()
 
   loadData ->
+    initPlayCountsFor(data.videos.map((webm) -> webm.file_name))
     document.getElementById('indexList').innerHTML = data.index
     hash = window.location.hash.replace(/^#|\.webm$/, '').trim()
     if hash.length > 0
